@@ -21,10 +21,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDTO registerRequest, UriComponentsBuilder uriBuilder){
         try {
-            User usuario = userService.register(registerRequest);
-            var uri = uriBuilder.path("v1/api/auth-service/{id}").buildAndExpand(usuario.getId()).toUri();
+            var newRegister = userService.register(registerRequest);
+            var uri = uriBuilder.path("v1/api/auth-service/{id}").buildAndExpand(newRegister.id()).toUri();
 
-            return ResponseEntity.created(uri).body(new RegisterResponseDTO(usuario.getId(), usuario.getUsername(), usuario.getRole()));
+            return ResponseEntity.created(uri).body(newRegister);
         }catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new ErroResponseDTO(e.getMessage()));
         }

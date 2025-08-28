@@ -1,10 +1,7 @@
 package com.account.service.service;
 
 import com.account.service.domain.User;
-import com.account.service.dto.LoginRequestDTO;
-import com.account.service.dto.LoginResponseDTO;
-import com.account.service.dto.RegisterRequestDTO;
-import com.account.service.dto.UserResponseDTO;
+import com.account.service.dto.*;
 import com.account.service.infra.security.TokenService;
 import com.account.service.mapper.UserMapper;
 import com.account.service.repository.UserRepository;
@@ -30,7 +27,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User register(RegisterRequestDTO dados){
+    public RegisterResponseDTO register(RegisterRequestDTO dados){
 
         if(this.userRepository.findByEmail(dados.email()) != null) {
             throw new RuntimeException("E-mail já cadastrado.");
@@ -41,7 +38,7 @@ public class UserService {
 
         this.userRepository.save(newUser);
 
-        return newUser;
+        return mapper.UserToRegisterResponseDTO(newUser);
     }
 
     public LoginResponseDTO login(LoginRequestDTO body) {
