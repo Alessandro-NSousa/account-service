@@ -19,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequestDTO registerRequest, UriComponentsBuilder uriBuilder){
+    public ResponseEntity register(@RequestBody @Valid RegisterRequestDTO registerRequest, UriComponentsBuilder uriBuilder){
         try {
             var newRegister = userService.register(registerRequest);
             var uri = uriBuilder.path("v1/api/auth-service/{id}").buildAndExpand(newRegister.id()).toUri();

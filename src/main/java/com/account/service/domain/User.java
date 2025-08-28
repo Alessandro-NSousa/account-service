@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -28,12 +29,14 @@ public class User implements UserDetails {
     private String password;
     private UserRole role;
     private Boolean ativo = true;
+    private LocalDateTime creationData;
 
     public User(RegisterRequestDTO dados, String encryptedPassword){
         this.nome = dados.nome();
         this.email = dados.email();
         this.password = encryptedPassword;
         this.role = dados.role();
+        this.creationData = LocalDateTime.now();
     }
 
     @Override
