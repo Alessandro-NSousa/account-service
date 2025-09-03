@@ -39,6 +39,13 @@ public class User implements UserDetails {
         this.creationData = LocalDateTime.now();
     }
 
+    public User(String nome, String login, String password, UserRole role){
+        this.nome = nome;
+        this.email = login;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
