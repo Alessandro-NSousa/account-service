@@ -1,6 +1,8 @@
 package com.account.service.builder;
 
 import com.account.service.domain.User;
+import com.account.service.dto.RegisterRequestDTO;
+import com.account.service.dto.RegisterResponseDTO;
 import com.account.service.enumeration.UserRole;
 import lombok.Builder;
 
@@ -25,6 +27,14 @@ public class UserDTOBuilder {
 
     @Builder.Default
     private Boolean ativo = true;
+
+    public RegisterRequestDTO buildRegisterRequestDTO() {
+        return new RegisterRequestDTO(nome, email, password, role);
+    }
+
+//    public RegisterResponseDTO buildRegisterResponseDTO() {
+//        return new RegisterResponseDTO(id, email, role);
+//    }
 
     public User toUser() {
         User user = new User(nome, email, password, role);
