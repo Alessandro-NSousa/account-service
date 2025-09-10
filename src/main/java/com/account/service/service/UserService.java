@@ -48,7 +48,7 @@ public class UserService {
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return new LoginResponseDTO(auth.getName(), token);
+        return new LoginResponseDTO(((User) auth.getPrincipal()).getNome(), token);
     }
 
     public UserResponseDTO detailUser(UUID id) {
