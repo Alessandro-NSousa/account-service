@@ -11,6 +11,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -75,6 +76,10 @@ public class TratadorDeErros {
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity tratarErroUsuarioDesabilitado() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Erro: Usuário Desabilitado" );
+    }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity tratarErroUsuarioInexistente() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Usuário não encontrado" );
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

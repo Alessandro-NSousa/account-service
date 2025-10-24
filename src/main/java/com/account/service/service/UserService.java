@@ -7,7 +7,9 @@ import com.account.service.mapper.UserMapper;
 import com.account.service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,13 +43,15 @@ public class UserService {
         return mapper.UserToRegisterResponseDTO(newUser);
     }
 
-    public LoginResponseDTO login(LoginRequestDTO body) {
+    public LoginResponseDTO login(LoginRequestDTO body) throws DisabledException {
+
+        var usuario = userRepository.findEmail(body.email())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(body.email(), body.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
-
         return new LoginResponseDTO(((User) auth.getPrincipal()).getNome(), token);
     }
 
